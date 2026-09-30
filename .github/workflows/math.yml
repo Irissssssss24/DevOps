@@ -1,0 +1,44 @@
+name: Math Pipeline Dev-Val-Prod
+on: [push]
+env:
+  NOMBRE_DE_BASE: 32
+
+jobs:
+  Dev:
+    runs-on: ubuntu-latest
+    outputs:
+      resultat_dev: ${{ steps.calc1.outputs.res }}
+      est_pair: ${{ steps.calc1.outputs.pair }}
+    steps:
+      - id: calc1
+        run: |
+          RES=$(( ${{ env.NOMBRE_DE_BASE }} / 2 ))
+          echo "res=$RES" >> $GITHUB_OUTPUT
+          echo "Résultat dans Dev (divisé par 2) : $RES"
+          
+          if [ $(( $RES % 2 )) -eq 0 ]; then
+            echo "pair=true" >> $GITHUB_OUTPUT
+          else
+            echo "pair=false" >> $GITHUB_OUTPUT
+          fi
+
+  Val:
+    needs: Dev
+    if: needs.Dev.outputs.est_pair == 'true'
+    runs-on: ubuntu-latest
+    outputs:
+      resultat_val: ${{ steps.calc2.outputs.res }}
+    steps:
+      - id: calc2
+        run: |
+          RES=$(echo "scale=2; ${{ needs.Dev.outputs.resultat_dev }} / 4" | bc)
+          echo "res=$RES" >> $GITHUB_OUTPUT
+          echo "Résultat dans Val (divisé par 4) : $RES"
+
+  Prod:
+    needs: Val
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          RES=$(echo "scale=2; ${{ needs.Val.outputs.resultat_val }} / 8" | bc)
+          echo "Résultat dans Prod (divisé par 8) : $RES"

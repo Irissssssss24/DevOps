@@ -1,0 +1,9 @@
+name: Branch Name Pipeline
+on: [push]
+
+jobs:
+  display-branch:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher la branche courante
+        run: "echo Cette pipeline tourne sur la branche : ${{ github.ref_name }}"

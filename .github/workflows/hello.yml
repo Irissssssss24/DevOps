@@ -7,3 +7,19 @@ jobs:
     steps:
       - name: Afficher Hello World
         run: echo "Hello World!"
+job_prenom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher Prénom
+        run: echo "Prénom : ${{ vars.PRENOM }}"
+job_nom:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher Nom
+        run: echo "Nom : ${{ vars.NOM }}"
+
+job_email:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Afficher Email
+        run: echo "Email : ${{ vars.EMAIL }}"

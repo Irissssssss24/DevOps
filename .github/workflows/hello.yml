@@ -1,27 +1,31 @@
 name: Hello World Pipeline
-on: [push]
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
 
 jobs:
-  hello:
+  hello-world:
     runs-on: ubuntu-latest
     steps:
-      - name: Afficher Hello World
-        run: echo "Hello World!"
+      - name: Dire bonjour
+        run: echo "Hello World"
 
-  job_prenom:
+  afficher-nom:
     runs-on: ubuntu-latest
     steps:
-      - name: Afficher Prénom
-        run: echo "Prénom : ${{ vars.PRENOM }}"
+      - name: Afficher le nom
+        run: echo "Nom = ${{ vars.NOM }}"
 
-  job_nom:
+  afficher-prenom:
     runs-on: ubuntu-latest
     steps:
-      - name: Afficher Nom
-        run: echo "Nom : ${{ vars.NOM }}"
+      - name: Afficher le prénom
+        run: echo "Prénom = ${{ vars.PRENOM }}"
 
-  job_email:
+  afficher-email:
     runs-on: ubuntu-latest
     steps:
-      - name: Afficher Email
-        run: echo "Email : ${{ vars.EMAIL }}"
+      - name: Afficher l'email
+        run: echo "Email = ${{ vars.EMAIL }}"
